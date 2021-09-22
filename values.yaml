@@ -53,6 +53,8 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+    # nginx.ingress.kubernetes.io/proxy-body-size: 100000m
+    # nginx.ingress.kubernetes.io/rewrite-target: /guacamole/$1
   hosts:
     - host: chart-example.local
       paths: []
@@ -86,3 +88,11 @@ postgres:
   database: "guacamole"
   user: "guacamole"
   password: "password"
+
+OIDC:
+  authorization_endpoint: "XXXXXX"
+  jwks_endpoint: "XXXXXX"
+  issuer: "XXXXXX"
+  clientID: "XXXXXX"
+  redirect_uri: "XXXXXX"
+  username_claim_type: "username" # username, sub, email
