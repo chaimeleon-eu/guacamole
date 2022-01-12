@@ -66,6 +66,8 @@ spec:
               psql -h $POSTGRES_HOSTNAME -d $POSTGRES_DATABASE -U $POSTGRES_USER -p $POSTGRES_PORT -a -w -f /data/initdb.sql || true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      
+      priorityClassName: "{{ .Values.priorityClassName }}"
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
