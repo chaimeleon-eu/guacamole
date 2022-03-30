@@ -98,3 +98,6 @@ OIDC:
   clientID: "XXXXXX"
   redirect_uri: "XXXXXX"
   username_claim_type: "username" # username, sub, email
+
+extension-priority: "postgresql"
+
