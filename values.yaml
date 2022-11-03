@@ -17,10 +17,21 @@ guacd:
     pullPolicy: IfNotPresent
 
 dbcreation:
+  # This is for an initContainer which connects to the database and initializes it creating the tables and the admin user.
+  # If the database is already initialized the (expected) errors due to duplication are written in the log but the execution continues.
   image:
     repository: bitnami/postgresql
-    tag: 11.7.0-debian-10-r9
+    tag: 11.12.0-debian-10-r5
     pullPolicy: IfNotPresent
+  # The username of the admin user that will be created in DB with permissions to do everything.
+  # If there is a user in the OIDC service with the same username (claim specified in OIDC.username_claim_type), then it will be able to 
+  # access with the OIDC credentials.
+  adminUsername: guacadmin
+  # This is the local password (in DB), which can be used to access the REST API (see extension-priority).
+  # If empty, it will be randomly generated for security reasons.
+  # Apart from that, the user will be able to access using OIDC if there is an account in that external service matching the username.
+  # The OIDC credentials for this user can be different from this password. 
+  adminLocalPassword: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -28,7 +39,7 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -99,5 +110,7 @@ OIDC:
   redirect_uri: "XXXXXX"
   username_claim_type: "username" # username, sub, email
 
+# Set to 'postgresql' if you want the users be able to access the REST API with the local password (saved in the DB), and not require OIDC authentication.
+# Otherwise you can set to 'openid'.
 extension-priority: "postgresql"
 
