@@ -61,6 +61,7 @@ spec:
             - name: initdb
               mountPath: /data
           command: ["/bin/sh"]
+          # ref: https://guacamole.apache.org/doc/gug/jdbc-auth.html#users
           args:
             - -c
             - |
